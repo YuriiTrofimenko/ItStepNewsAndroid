@@ -27,14 +27,16 @@ import java.net.URLEncoder;
 
 public class AddNews extends AppCompatActivity {
 
-    private final String mBaseUrl = "http://10.20.60.10:8080/NoteBookServer-war/Api";
+    //private final String mBaseUrl = "http://10.20.60.10:8080/NoteBookServer-war/Api";
+    private final String mBaseUrl = "http://it-step-news-1.appspot.com/news";
+    //http://it-step-news-1.appspot.com/news?action=fetch-all-news
     private Context mContext;
 
     @BindView(R.id.contentEditText)
-    EditText mCustomerEditText;
+    EditText mContentText;
 
     @BindView(R.id.titleEditText)
-    EditText mTaskEditText;
+    EditText mTitleEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,14 @@ public class AddNews extends AppCompatActivity {
 
         String urlString =
                 mBaseUrl
-                + "?action=create_order"
-                + "&customer_name="
-                + prepareString(mCustomerEditText.getText().toString())
-                + "&description="
-                + prepareString(mTaskEditText.getText().toString());
+                + "?action=create"
+                + "&title="
+                + prepareString(mTitleEditText.getText().toString())
+                + "&content="
+                + prepareString(mContentText.getText().toString());
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        Log.d("my", urlString);
+        //Log.d("my", urlString);
         JsonObjectRequest jsonObjectRequest =
                 new JsonObjectRequest(
                         urlString
@@ -65,18 +67,20 @@ public class AddNews extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
 
-                        Log.d("my s", "ok");
-                        Toast.makeText(mContext, "New order was added", Toast.LENGTH_LONG);
-                        mCustomerEditText.setText("");
+                        //Log.d("my s", "ok");
+                        Toast.makeText(mContext, "Новость была добавлена", Toast.LENGTH_LONG);
+                        mTitleEditText.setText("");
+                        mContentText.setText("");
                     }
                 }
                         , new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Log.d("my e", "error");
+                        //Log.d("my e", "error");
                         Toast.makeText(mContext, "Error", Toast.LENGTH_LONG);
-                        mTaskEditText.setText("");
+                        mTitleEditText.setText("");
+                        mContentText.setText("");
                     }
                 }
                 );
